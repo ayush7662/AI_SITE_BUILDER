@@ -15,7 +15,7 @@ const allowedOrigins = [
   'http://localhost:5173'
 ]
 
-// 🔥 FIXED CORS (SAFE + SIMPLE + WORKING)
+// ✅ CORS
 app.use(
   cors({
     origin: allowedOrigins,
@@ -24,31 +24,31 @@ app.use(
   })
 )
 
-// 🔥 IMPORTANT: HANDLE PREFLIGHT
-app.options('*', cors())
+// ❌ DO NOT USE: app.options('*', cors())  (causes crash in Express 5)
 
-// 🔥 STRIPE (MUST BE BEFORE JSON)
+// Stripe webhook (must be before JSON)
 app.post(
   '/api/stripe',
   express.raw({ type: 'application/json' }),
   stripeWebhook
 )
 
-// 🔥 JSON BODY
+// JSON parser
 app.use(express.json({ limit: '50mb' }))
 
-// 🔥 AUTH ROUTE (KEEP AFTER CORS + OPTIONS)
+// Auth routes
 app.all('/api/auth/*', toNodeHandler(auth))
 
-// ROUTES
+// Routes
 app.use('/api/user', userRouter)
 app.use('/api/project', projectRouter)
 
-// HEALTH CHECK
+// Health check
 app.get('/', (req: Request, res: Response) => {
   res.send('Server is Live')
 })
 
+// Start server
 app.listen(port, () => {
-  console.log(`Server running at ${port}`)
+  console.log(`Server running at http://localhost:${port}`)
 })
