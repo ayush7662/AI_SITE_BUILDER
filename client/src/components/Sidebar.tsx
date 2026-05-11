@@ -27,16 +27,16 @@ const Sidebar = ({
   const [input, setInput] = useState("")
 
 
-  const fetchProject = async (params:type) =>{
-try{
-    const {data} = await api.get(`/api/user/projecct/${project.id}`)
-    setProject(data.project)
-
-}catch(error:any){
-   toast.error(error?.response?.data?.message || error.message)
-   console.log(error)
-}
+  const fetchProject = async () => {
+    try {
+      const { data } = await api.get(`/api/user/project/${project.id}`)
+      setProject(data.project)
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message || error.message)
+      console.log(error)
+    }
   }
+
 
   const handleRollback = async (versionId: string) => {
     try{
@@ -50,11 +50,12 @@ try{
           setIsGenerating(false)
 
     }catch(error:any){
-          setIsGenearting (false)
-          toast.error(error?.response?.data?.message || error.message);
-          console.log(error)
+          setIsGenerating(false)
+   toast.error(error?.response?.data?.message || error.message);
+   console.log(error)
     }
   }
+
 
   const handleRevisions = async (e: React.FormEvent) =>{
         e.preventDefault()
@@ -129,12 +130,11 @@ try{
 
         {/* Messages */}
         <div className='flex-1 overflow-y-auto no-scrollbar px-3 flex flex-col gap-4'>
-          {[...project.conversation, ...project.version]
+          {[...project.conversation, ...project.versions]
             .sort((a, b) =>
               new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
             )
             .map((message) => {
-
               if ('content' in message) {
                 const msg = message as Message
                 const isUser = msg.role === 'user'
@@ -193,6 +193,7 @@ try{
                 </div>
               )
             })}
+
 
           {isGenerating && (
             <div className='flex items-start gap-3'>

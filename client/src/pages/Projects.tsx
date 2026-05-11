@@ -38,14 +38,17 @@ const ProjectPage = () => {
   const fetchProject = async () => {
    try{
         const {data} = await api.get(`/api/user/project/${projectId}`)
-        setProject(data.project)
-        setIsGenerating(data.project.current_code ? false: true)
+        const projectData: Project = data.project
+        setProject(projectData)
+        setIsGenerating(projectData.current_code ? false: true)
         setLoading(false)
-   }catch(error) {
-       toast.error(error?.response?.data?.message || error.message);
-       console.log(error);
+   }catch(error: unknown) {
+       const err = error as any
+       toast.error(err?.response?.data?.message || err?.message || 'Failed to fetch project');
+       console.log(err);
    }
   }
+
 
   const saveProject = async () => {
     if(!previewRef.current) return;
