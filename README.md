@@ -1,6 +1,8 @@
 # AI Site Builder
 
-AI-powered website builder that generates, edits, previews, and deploys websites in real time using conversational prompts.
+An AI-powered website builder is a software tool that uses artificial intelligence to automatically generate, edit, preview, and deploy websites based on simple conversational prompts from the user.
+
+Instead of writing code manually, users can describe what they want in natural language, and the AI creates a fully functional website with layout, design, and content in real time.
 
 ---
 
