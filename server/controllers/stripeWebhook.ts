@@ -3,7 +3,7 @@ import {Request, Response} from 'express';
 import prisma from '../lib/prisma.js';
 import Stripe from 'stripe';
 
-export const stripeWebhook = async (Request: Request, response: Response) =>{
+export const stripeWebhook = async (request: Request, response: Response) =>{
 
 const stripe  = new Stripe(process.env.STRIPE_SECRET_KEY as string)
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET as string;
@@ -45,10 +45,19 @@ const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET as string;
                 data: {isPaid: true}
             })
          // Add the credits to the user data
-         await prisma.user.update({
-            where:{id: transactionId.userId},
-            data: {credits: {increment: transaction.credits}}
+         // We only have transactionId in metadata; update credits if Transaction relation exists.
+         // Prisma schema types in this repo store credits on the Transaction row.
+         const transaction = await prisma.transaction.findUnique({
+            where: { id: transactionId },
+            select: { credits: true },
          })
+
+         if (transaction) {
+            await prisma.user.update({
+              where: { id: session.metadata?.userId as string },
+              data: { credits: { increment: transaction.credits } },
+            })
+         }
         }
       
       break;
