@@ -13,7 +13,7 @@ const app = express()
 const port = process.env.PORT || 3000
 
 
-const allowedOrigins = (process.env.CORS_ORIGINS || 'http://localhost:5173')
+const allowedOrigins = (process.env.CORS_ORIGINS || 'https://ai-site-builder-zeta.vercel.app/')
   .split(',')
   .map((o) => o.trim())
   .filter(Boolean)
