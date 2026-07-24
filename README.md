@@ -9,7 +9,9 @@ Instead of writing code manually, users can describe what they want in natural l
 # 🚀 Live Demo
 
 - Frontend: https://ai-site-builder-zeta.vercel.app  
-- Backend: https://ai-site-builder-saua.onrender.com  
+- Backend: https://ai-site-builder-saua.onrender.com
+
+- video: https://drive.google.com/file/d/1lLrks3qw57LD30O2vo6PaZUaS3Bf4we5/view?usp=sharing
 
 ---
 
